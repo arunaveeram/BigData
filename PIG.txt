@@ -1,0 +1,39 @@
+PIG ::
+
+
+
+To Ingest the data into pig, we use the following Code:
+
+a = LOAD 'Desktop/2008.csv' using PigStorage(',') as (Year: int, Month: int, Dayofmonth: int, Dayofweek: int, DepTime: int, CRSDepTime: int, ArrTime: int, CRSArrTime: int, Uniquecarrier: chararray, Flightnum: int, Tailnum: chararray, ActualElapsedTime: int, CRSElapsedTime: int, AirTime: int, ArrDelay: int, DepDelay: int, Origin: chararray, Dest: chararray, Distance: int, TaxiIn: int, TaxiOut: int, Cancelled: int, CancellationCode: chararray, Diverted: chararray, CarrierDelay: chararray, WeatherDelay: chararray, NASDelay: chararray, SecurityDelay: chararray, LateAircraftDelay: chararray);
+
+Now the CSV file is uploaded into PIG
+
+We have run the following Sample Queries :
+a = LOAD 'src/2008.csv' using PigStorage(',') as (Year: int, Month: int, Dayofmonth: int, Dayofweek: int, DepTime: int, CRSDepTime: int, ArrTime: int, CRSArrTime: int, Uniquecarrier: chararray, Flightnum: int, Tailnum: chararray, ActualElapsedTime: int, CRSElapsedTime: int, AirTime: int, ArrDelay: int, DepDelay: int, Origin: chararray, Dest: chararray, Distance: int, TaxiIn: int, TaxiOut: int, Cancelled: int, CancellationCode: chararray, Diverted: chararray, CarrierDelay: chararray, WeatherDelay: chararray, NASDelay: chararray, SecurityDelay: chararray, LateAircraftDelay: chararray);
+b = foreach a generate Origin as O, Dest as D;
+c = group b by (O,D);
+COUNT = foreach c generate group, COUNT(b);
+dump COUNT;
+
+We have got the following sample output:
+
+((ABE,ATL),853)
+((ABE,BHM),1)
+((ABE,CLE),805)
+((ABE,CLT),465)
+((ABE,CVG),247)
+((ABE,DTW),997)
+((ABE,JFK),3)
+((ABE,LGA),9)
+((ABE,ORD),1425)
+((ABE,PHL),2)
+((ABI,DFW),2660)
+((ABQ,AMA),368)
+((ABQ,ATL),1067)
+((ABQ,AUS),433)
+((ABQ,BWI),546)
+Year,Month,DayofMonth,DayOfWeek,DepTime,CRSDepTime,ArrTime,CRSArrTime,UniqueCarrier,
+FlightNum,TailNum,ActualElapsedTime,CRSElapsedTime,AirTime,ArrDelay,DepDelay,Origin,
+Dest,Distance,TaxiIn,TaxiOut,Cancelled,CancellationCode,Diverted,CarrierDelay,
+WeatherDelay,NASDelay,SecurityDelay,LateAircraftDelay
+RAW_DATA = LOAD '/training/AIRPORT/2008.csv' USING PigStorage(',') AS Year: int, Month: int, DayofMonth: int, DayOfWeek: int, DepTime: int, CRSDepTime: int, ArrTime: int, CRSArrTimesatime: int, UniqueCarrier: chararray, FlightNum: int, TailNum: chararray, ActualElapsedTime: int, CRSElapsedTime: int, AirTime: int, ArrDelay: int, DepDelay: int, Origin: chararray, Dest: chararray, Distance: int, TaxiIn: int, TaxiOut: int, Cancelled: chararray, CancellationCode: chararray, Diverted: int, CarrierDelay: int, WeatherDelay: int, NASDelay: int, SecurityDelay: int, LateAircraftDelay: int ;

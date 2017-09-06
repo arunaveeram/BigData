@@ -1,0 +1,57 @@
+HIVE  ::
+
+To Create a external table in HIVE and to ingest the data(.CSV file) into the table that we hacve created:
+
+As we have created a seperate database for our data, we use the following command to use that database.
+use group3; 
+
+To create a external table, flightdata we used the following create table statement. As we do not need the header, we use the skip.header in this statement.
+
+create external table group3.flightdata 
+(Year int, Month int, Dayofmonth int, Dayofweek int, 
+DepTime int, CRSDepTime int, ArrTime int, CRSArrTime int, 
+Uniquecarrier string, Flightnum int, Tailnum string, ActualElapsedTime int, 
+CRSElapsedTime int, AirTime int, ArrDelay int, DepDelay int, Origin string, 
+Dest string, Distance int, TaxiIn int, TaxiOut int, 
+Cancelled int, CancellationCode string, 
+Diverted string, CarrierDelay string, WeatherDelay string,
+ NASDelay string, SecurityDelay string, 
+LateAircraftDelay string)  row format delimited fields 
+terminated by ',' lines terminated by '\n' location 
+'/user/group3/' tblproperties ("skip.header.line.count"="1");
+
+The path where we saved the .CSV file is 
+
+ hdfs dfs -ls /user/group3/new_2008.csv
+
+
+Inorder to load the data into the table that we have created in the Hive, we use the following statement.
+
+load data inpath '/user/training/new_2008.csv' into table flightdata;
+
+By the above mentioned steps, we are able to ingest the data in to the table that we have created in the Hive.
+
+
+we have run the following sample queries :
+
+select AVG(Airtime) from flightdata;
+
+
+The Result is as follows:
+
+MapReduce Total cumulative CPU time: 26 seconds 580 msec
+Ended Job = job_201611101759_0012
+MapReduce Jobs Launched: 
+Job 0: Map: 3  Reduce: 1   Cumulative CPU: 26.58 sec   HDFS Read: 689454877 HDFS Write: 18 SUCCESS
+Total MapReduce CPU Time Spent: 26 seconds 580 msec
+OK
+104.0185891263188
+Time taken: 83.943 seconds
+
+
+
+
+
+
+
+
